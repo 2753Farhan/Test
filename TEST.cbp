@@ -44,6 +44,8 @@
 		</Unit>
 		<Unit filename="main.cpp" />
 		<Unit filename="payloads.txt" />
+		<Unit filename="sqlinjectiondetection.cpp" />
+		<Unit filename="sqlinjectiondetection.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
