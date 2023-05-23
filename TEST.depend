@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1684610345 source:d:\video\test\main.cpp
+1684882420 source:d:\video\test\main.cpp
 	<iostream>
 	"BooleanbasedBlind.h"
 	"errorbasedsqlInjection.h"
 	"Timebasedsqlinjection.h"
+	"sqlinjectiondetection.h"
 
 1684606031 d:\video\test\booleanbasedblind.cpp
 	<iostream>
@@ -13,32 +14,36 @@
 	<curl/curl.h>
 	<sstream>
 
-1684610423 source:d:\video\test\booleanbasedblind.cpp
+1684883062 source:d:\video\test\booleanbasedblind.cpp
 	<iostream>
 	<string>
 	<fstream>
 	<vector>
 	<curl/curl.h>
 	<sstream>
+	<tuple>
 	"functions.h"
 
-1684608698 d:\video\test\booleanbasedblind.h
+1684882308 d:\video\test\booleanbasedblind.h
+	<iostream>
 
-1684610514 source:d:\video\test\errorbasedsqlinjection.cpp
+1684882651 source:d:\video\test\errorbasedsqlinjection.cpp
 	<iostream>
 	<string>
 	<fstream>
 	<vector>
 	<curl/curl.h>
+	<tuple>
 	"functions.h"
 
-1684608560 source:d:\video\test\functions.cpp
+1684879381 source:d:\video\test\functions.cpp
 	<iostream>
 	<string>
 	<fstream>
 	<vector>
 	<curl/curl.h>
 	<sstream>
+	<tuple>
 
 1684608560 d:\video\test\functions.cpp
 	<iostream>
@@ -48,15 +53,18 @@
 	<curl/curl.h>
 	<sstream>
 
-1684609133 d:\video\test\functions.h
+1684879424 d:\video\test\functions.h
 	<iostream>
 	<vector>
+	<tuple>
 
-1684609615 d:\video\test\errorbasedsqlinjection.h
+1684882314 d:\video\test\errorbasedsqlinjection.h
+	<iostream>
 
-1684609871 d:\video\test\timebasedsqlinjection.h
+1684882321 d:\video\test\timebasedsqlinjection.h
+	<iostream>
 
-1684610448 source:d:\video\test\timebasedsqlinjection.cpp
+1684882853 source:d:\video\test\timebasedsqlinjection.cpp
 	<iostream>
 	<string>
 	<fstream>
@@ -64,5 +72,15 @@
 	<curl/curl.h>
 	<sstream>
 	<chrono>
+	<tuple>
 	"functions.h"
+
+1684882043 d:\video\test\sqlinjectiondetection.h
+
+1684882340 source:d:\video\test\sqlinjectiondetection.cpp
+	<iostream>
+	<string>
+	<vector>
+	<algorithm>
+	<fstream>
 

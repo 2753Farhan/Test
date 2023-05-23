@@ -485,6 +485,7 @@ void sqlinjectiondetection()
         else cout << val <<" is a defective query\n";
 
     }
+
 }
 //SELECT * FROM user WHERE ID='1' or '1=1'--'AND password='1234'
 

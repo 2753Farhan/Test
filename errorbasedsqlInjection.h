@@ -1,6 +1,6 @@
 #ifndef ERRORBASEDSQLINJECTION_H_INCLUDED
 #define ERRORBASEDSQLINJECTION_H_INCLUDED
+#include<iostream>
 
-
-void errorbased();
+void errorbased(std::string);
 #endif // ERRORBASEDSQLINJECTION_H_INCLUDED
